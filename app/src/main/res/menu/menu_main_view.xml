@@ -15,12 +15,19 @@
         android:stepSize="1.0"
         />
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_favorite"
-        android:title="Some Text"
+        android:id="@+id/action_load"
+        android:icon="@drawable/open_file"
+        android:title="Load"
         app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_clear"
+        android:icon="@drawable/clear_photos_icon"
+        android:title="Clear"
+        app:showAsAction="ifRoom"/>
+    <!--<item-->
+        <!--android:id="@+id/action_settings"-->
+        <!--android:orderInCategory="100"-->
+        <!--android:title="@string/action_settings"-->
+        <!--app:showAsAction="never" />-->
 </menu>
