@@ -10,17 +10,19 @@
     <item android:id="@+id/rating_filter"
         app:showAsAction="ifRoom|collapseActionView"
         android:title="Filter"
-        app:actionViewClass="android.widget.RatingBar"
-        />
+        app:actionViewClass="android.widget.RatingBar"/>
+    <item
+        android:id="@+id/clear_filter"
+        android:title="Clear Filter"
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_load"
         android:icon="@drawable/open_file"
         android:title="Load"
         app:showAsAction="ifRoom"/>
-
     <item
         android:id="@+id/action_clear"
-        android:icon="@drawable/clear_photos_icon"
+        android:icon="@drawable/clear_photos_icon2"
         android:title="Clear"
         app:showAsAction="ifRoom"/>
     <!--<item-->
