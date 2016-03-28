@@ -77,4 +77,8 @@ public class ImageCollectionModel extends Observable{
     public List<ImageModel> getImageList() {
         return imageList;
     }
+
+    public void clearImagesModels(){
+        imageList.clear();
+    }
 }

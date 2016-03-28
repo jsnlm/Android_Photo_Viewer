@@ -1,6 +1,9 @@
 package myself.se465a4;
 
 import android.content.Context;
+import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.View;
@@ -12,6 +15,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Random;
 
 public class CustomImageView extends LinearLayout implements Observer{
 
@@ -26,8 +30,22 @@ public class CustomImageView extends LinearLayout implements Observer{
 
         this.setOrientation(LinearLayout.VERTICAL);
 
+        Random r = new Random();
+        this.setBackgroundColor(Color.rgb(r.nextInt(255), r.nextInt(255), r.nextInt(255)));
+
+//        Bitmap yourSelectedImage = BitmapFactory.decodeFile(model.getPath().getPath());
+
         ImageView imgPart = new ImageView(c);
         imgPart.setImageURI(model.getPath());
+//        imgPart.setMaxHeight(500);
+//        imgPart.setMinimumHeight(500);
+//        imgPart.setMaxWidth(500);
+//        imgPart.setMinimumWidth(500);
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+            imgPart.setAdjustViewBounds(true);
+            imgPart.setMaxHeight(400);
+            imgPart.setMinimumHeight(400);
+        }
 
         ratingBar = new RatingBar(c);
         ratingBar.setStepSize(1.0f);

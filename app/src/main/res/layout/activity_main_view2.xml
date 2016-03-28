@@ -29,13 +29,13 @@
         android:layout_alignParentStart="true"
         android:id="@+id/scrollView">
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:id="@+id/picture_area"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <!--<LinearLayout-->
+            <!--android:orientation="vertical"-->
+            <!--android:id="@+id/picture_area"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
 
-        </LinearLayout>
+        <!--</LinearLayout>-->
     </ScrollView>
 
     <!--<WebView-->
