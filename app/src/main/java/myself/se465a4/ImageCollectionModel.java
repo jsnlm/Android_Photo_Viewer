@@ -12,7 +12,6 @@ public class ImageCollectionModel extends Observable{
     List<ImageModel> imageList;
     ImageModel unaddedImage;
     int filter;
-    String searchFilter;
 
     public ImageCollectionModel(){
         imageList = new ArrayList<ImageModel>();
@@ -56,21 +55,6 @@ public class ImageCollectionModel extends Observable{
 
     public void setFilter(int filter) {
         this.filter = filter;
-        setChangedAndNotify();
-    }
-
-    public String getSearchFilter() {
-        return searchFilter;
-    }
-
-    public void setSearchFilter(String searchFilter) {
-        if (searchFilter == null){
-            Log.d("searchFilter", "null");
-        }
-        else{
-            Log.d("searchFilter", searchFilter);
-        }
-        this.searchFilter = searchFilter;
         setChangedAndNotify();
     }
 

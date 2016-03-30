@@ -86,19 +86,11 @@ public class CustomImageView extends LinearLayout implements Observer{
         ratingBar.setRating((float)model.getRating());
     }
 
-    public void setFilter(int filter, String query) {
-        int imgRating = model.getRating();
-        String fileName = model.getFileName();
-        boolean a = (filter != 0) && (model.getRating() < filter);
-        boolean b = (query != null) && (!model.getFileName().contains(query));
-
-        if (
-            ((filter != 0) && (model.getRating() < filter))||
-            ((query != null) && (!model.getFileName().contains(query) ))
-        ){
+    public void setFilter(int filter) {
+        if ((filter != 0) && (model.getRating() < filter)) {
             this.setVisibility(GONE);
         }
-        else{
+        else {
             this.setVisibility(VISIBLE);
         }
     }

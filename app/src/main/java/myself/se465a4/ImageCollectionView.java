@@ -15,7 +15,9 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
@@ -54,7 +56,11 @@ public class ImageCollectionView extends AppCompatActivity implements Observer {
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
             GridLayout temp = new GridLayout(this.getApplicationContext());
             temp.setColumnCount(2);
-            pictureArea = temp;
+            temp.setColumnOrderPreserved(false);
+            temp.setRowOrderPreserved(false);
+
+            GridLayout.LayoutParams first = new GridLayout.LayoutParams();
+                    pictureArea = temp;
         }
         else{
             LinearLayout temp = new LinearLayout(this.getApplicationContext());
@@ -143,36 +149,18 @@ public class ImageCollectionView extends AppCompatActivity implements Observer {
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
                 SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
-                Log.d("item collapsed", searchView.getQuery().toString());
+//                Log.d("item collapsed", searchView.getQuery().toString());
                 return true;
             }
 
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
                 SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
-                Log.d("item expanded", searchView.getQuery().toString());
+//                Log.d("item expanded", searchView.getQuery().toString());
                 return true;
             }
         };
         MenuItemCompat.setOnActionExpandListener(searchItem, expandListener);
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                if (newText.equals("")){
-                    model.setSearchFilter(null);
-                }
-                else{
-                    model.setSearchFilter(newText);
-                }
-                return false;
-            }
-        });
 
         filterView.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
@@ -213,7 +201,7 @@ public class ImageCollectionView extends AppCompatActivity implements Observer {
         filterView.setRating((float)model.getFilter());
         for(CustomImageView img : viewList){
 //            img.changeLayout(model.getLayout());
-            img.setFilter(model.getFilter(), model.getSearchFilter());
+            img.setFilter(model.getFilter());
         }
     }
 
@@ -246,7 +234,6 @@ public class ImageCollectionView extends AppCompatActivity implements Observer {
             case R.id.clear_filter:
                 Log.d("tag, idk", "clear_filter was clicked");
                 model.setFilter(0);
-                model.setSearchFilter(null);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
