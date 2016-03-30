@@ -6,17 +6,28 @@ import android.provider.MediaStore;
 
 import java.io.File;
 import java.util.Observable;
+import java.net.URL;
 
 public class ImageModel extends Observable{
 
     private Uri path;
+    private URL pathURL;
     private String fileName;
     private int rating;
 
+    public ImageModel(URL path, String name){
+        this(name);
+        this.pathURL = path;
+    }
+
     public ImageModel(Uri path, String name){
+        this(name);
         this.path = path;
-        rating = 0;
+    }
+
+    private ImageModel(String name){
         fileName = name;
+        rating = 0;
     }
 
     public String getFileName() {
@@ -25,6 +36,9 @@ public class ImageModel extends Observable{
 
     public Uri getPath(){
         return path;
+    }
+    public URL getPathURL(){
+        return pathURL;
     }
 
     public int getRating(){

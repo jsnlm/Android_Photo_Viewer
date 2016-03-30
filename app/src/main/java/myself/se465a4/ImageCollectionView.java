@@ -27,6 +27,7 @@ import android.widget.RatingBar;
 import android.widget.ScrollView;
 
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -145,22 +146,32 @@ public class ImageCollectionView extends AppCompatActivity implements Observer {
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         filterView = (RatingBar) MenuItemCompat.getActionView(filterItem);
 
-        MenuItemCompat.OnActionExpandListener expandListener = new MenuItemCompat.OnActionExpandListener() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onMenuItemActionCollapse(MenuItem item) {
-                SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
-//                Log.d("item collapsed", searchView.getQuery().toString());
+            public boolean onQueryTextSubmit(String query) {
+//                query = "http://image.shutterstock.com/display_pic_with_logo/160669/160669,1276177714,1/stock-photo-black-man-and-map-of-africa-on-the-background-54928063.jpg";
+
+                String[] idk = query .split("/");
+                String fileName = idk[idk.length-1];
+
+                try{
+                    URL someURL = new URL(query);
+                    model.addPicture(someURL, fileName);
+                }
+                catch(Exception e){
+                    Log.e("URL instantiating error", e.getMessage());
+                    e.printStackTrace();
+                }
+
+
                 return true;
             }
 
             @Override
-            public boolean onMenuItemActionExpand(MenuItem item) {
-                SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
-//                Log.d("item expanded", searchView.getQuery().toString());
-                return true;
+            public boolean onQueryTextChange(String newText) {
+                return false;
             }
-        };
-        MenuItemCompat.setOnActionExpandListener(searchItem, expandListener);
+        });
 
         filterView.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
