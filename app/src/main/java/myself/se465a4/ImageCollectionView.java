@@ -1,36 +1,22 @@
 package myself.se465a4;
-
-import android.content.ContentValues;
-import android.content.Intent;
 import android.content.res.Configuration;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.provider.MediaStore;
-import android.provider.UserDictionary;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
-import android.view.animation.GridLayoutAnimationController;
-import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.ScrollView;
 
-import java.io.File;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -60,13 +46,6 @@ public class ImageCollectionView extends AppCompatActivity implements Observer {
 
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-//            GridLayout temp = new GridLayout(this.getApplicationContext());
-//            temp.setColumnCount(2);
-//            temp.setColumnOrderPreserved(false);
-//            temp.setRowOrderPreserved(false);
-//
-//            GridLayout.LayoutParams first = new GridLayout.LayoutParams();
-
 
             LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
             inflater.inflate(R.layout.picture_area_horizontal, scrollArea, true);
@@ -90,23 +69,6 @@ public class ImageCollectionView extends AppCompatActivity implements Observer {
             scrollingArea.addView(pictureArea);
         }
         counter = 0;
-//        /////////////////////////////////////////////////////////////////////////////////////
-//        String mSelectionClause = null;
-//        String[] mSelectionArgs = {""};
-//        mSelectionArgs[0] = "";
-//
-//        String[] mProjection = { "file_name", "stringified_uri" };
-//
-//        Cursor mCursor = getContentResolver().query( UserDictionary.Words.CONTENT_URI, mProjection, null, null, null);
-//        try {
-//            while (mCursor.moveToNext()) {
-//                Log.d("mCursor.getString(0)", mCursor.getString(0));
-//                Log.d("mCursor.getString(1)", mCursor.getString(1));
-//            }
-//        } finally {
-//            mCursor.close();
-//        }
-//        mCursor.close();
         invalidateOptionsMenu();
     }
 
@@ -134,17 +96,6 @@ public class ImageCollectionView extends AppCompatActivity implements Observer {
     protected void onStop(){
         super.onStop();
         Log.d("onStop", "");
-//        Uri mNewUri;
-//        for (ImageModel imgModel : model.getImageList()) {
-//            ContentValues mNewValues = new ContentValues();
-//            mNewValues.put("stringified_uri", imgModel.getPath().toString());
-//            mNewValues.put("file_name", imgModel.getFileName());
-//
-//            mNewUri = getContentResolver().insert(
-//                    UserDictionary.Words.CONTENT_URI,
-//                    mNewValues
-//            );
-//        }
     }
     @Override
     protected void onDestroy(){
@@ -178,7 +129,6 @@ public class ImageCollectionView extends AppCompatActivity implements Observer {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-//                query = "http://image.shutterstock.com/display_pic_with_logo/160669/160669,1276177714,1/stock-photo-black-man-and-map-of-africa-on-the-background-54928063.jpg";
 
                 String[] idk = query .split("/");
                 String fileName = idk[idk.length-1];
@@ -219,24 +169,17 @@ public class ImageCollectionView extends AppCompatActivity implements Observer {
     public void update(Observable observable, Object data) {
         ImageModel newImageModel =  model.getUnaddedImage();
         if (newImageModel != null){
-//            System.out.println("new image was added");
             CustomImageView newImageView = new CustomImageView(this.getApplicationContext(), newImageModel);
             newImageModel.addObserver(newImageView);
             newImageModel.notifyObservers();
 
             //newImageView.addRatingListener(this::onRate);
 
-            // LinearLayout pictureArea = (LinearLayout) findViewById(R.id.picture_area);
-
             if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
-                int argo = pictureArea.getMeasuredWidth();
-//                pictureArea.addView(newImageView, pictureArea.getWidth()/2, 650);
                 GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams();
                 layoutParams.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1.0f);
                 layoutParams.setGravity(Gravity.CENTER);
                 newImageView.setLayoutParams(layoutParams);
-//                pictureArea.setMinimumHeight(650);
-
 //                pictureArea.addView(newImageView);
             }
             else{
@@ -269,19 +212,7 @@ public class ImageCollectionView extends AppCompatActivity implements Observer {
                 return true;
 
             case R.id.action_load:
-////                http://stackoverflow.com/questions/5309190/android-pick-images-from-gallery
-//                Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
-//                getIntent.setType("image/*");
-//
-//                Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//                pickIntent.setType("image/*");
-//
-//                Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
-//                chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent});
-//                startActivityForResult(chooserIntent, 1);
-
                 load10Picture();
-
                 return true;
             case R.id.clear_filter:
                 Log.d("tag, idk", "clear_filter was clicked");
@@ -291,34 +222,6 @@ public class ImageCollectionView extends AppCompatActivity implements Observer {
                 return super.onOptionsItemSelected(item);
         }
     }
-
-//    protected void onActivityResult(int requestCode, int resultCode,
-//                                    Intent imageReturnedIntent) {
-//        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
-////        http://stackoverflow.com/questions/2507898/how-to-pick-an-image-from-gallery-sd-card-for-my-app
-//        switch(requestCode) {
-//            case 1:
-//                if(resultCode == RESULT_OK){
-//                    Uri selectedImage = imageReturnedIntent.getData();
-//
-//                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
-//
-//                    Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-//                    cursor.moveToFirst();
-//
-//                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-//                    String filePath = cursor.getString(columnIndex);
-//                    cursor.close();
-//
-////                    Bitmap yourSelectedImage = BitmapFactory.decodeFile(filePath);
-//
-//                    File tempFile = new File(filePath);
-//                    String fileName = tempFile.getName();
-//                    model.addPicture(selectedImage, fileName);
-//
-//                }
-//        }
-//    }
 
     private void load10Picture(){
         Uri path1 = Uri.parse("android.resource://myself.se465a4/" + R.drawable.picture1);

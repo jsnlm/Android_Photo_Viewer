@@ -1,13 +1,8 @@
 package myself.se465a4;
 
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Parcel;
-import android.provider.MediaStore;
-
-import java.io.File;
 import java.util.Observable;
-import java.net.URL;
 import android.os.Parcelable;
 
 public class ImageModel extends Observable implements Parcelable{

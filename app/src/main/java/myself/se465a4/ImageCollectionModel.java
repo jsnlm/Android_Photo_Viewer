@@ -2,9 +2,6 @@ package myself.se465a4;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
-
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -19,11 +16,6 @@ public class ImageCollectionModel extends Observable{
         imageList = new ArrayList<ImageModel>();
         unaddedImage = null;
     }
-
-//    public void loadImage(Uri newImage){
-//        imageList.add(new ImageModel(newImage));
-//        addPicture();
-//    }
 
     private void setChangedAndNotify(){
         setChanged();
