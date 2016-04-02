@@ -1,12 +1,15 @@
 package myself.se465a4;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,12 +88,33 @@ public class CustomImageView extends LinearLayout implements Observer{
             }
         });
 
-        ClearRating.setOnClickListener(new OnClickListener(){
+        ClearRating.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 model.setRating(0);
             }
         });
+        imgPart.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openImageProcedure(v);
+            }
+        });
+    }
+
+    private void openImageProcedure(View v){
+        Intent intent = new Intent(v.getContext(), CloseupImageLayout.class);
+//        intent.putExtra("Image_Link", this.model);
+//        String arg = "test text";
+//        intent.putExtra("someText", arg);
+
+        if (this.model.getPath() != null){
+            intent.putExtra("Image_Link_Uri", this.model.getPath());
+        } else{
+            intent.putExtra("Image_Link_URL", this.model.getPathURL());
+        }
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        (getContext()).startActivity(intent);
     }
 
     @Override
@@ -109,30 +133,6 @@ public class CustomImageView extends LinearLayout implements Observer{
         }
     }
 
-    // Plagiarized from http://stackoverflow.com/questions/2471935/how-to-load-an-imageview-by-url-in-android
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
 
-        public DownloadImageTask(ImageView bmImage) {
-            this.bmImage = bmImage;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap mIcon11 = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return mIcon11;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
-        }
-    }
 
 }
