@@ -98,12 +98,14 @@ public class CustomImageView extends LinearLayout implements Observer{
         ratingBar.setRating((float)model.getRating());
     }
 
-    public void setFilter(int filter) {
+    public boolean isVisible(int filter) {
         if ((filter != 0) && (model.getRating() < filter)) {
             this.setVisibility(GONE);
+            return false;
         }
         else {
             this.setVisibility(VISIBLE);
+            return true;
         }
     }
 

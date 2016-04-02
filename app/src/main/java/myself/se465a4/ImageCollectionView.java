@@ -237,10 +237,10 @@ public class ImageCollectionView extends AppCompatActivity implements Observer {
                 newImageView.setLayoutParams(layoutParams);
 //                pictureArea.setMinimumHeight(650);
 
-                pictureArea.addView(newImageView);
+//                pictureArea.addView(newImageView);
             }
             else{
-                pictureArea.addView(newImageView);
+//                pictureArea.addView(newImageView);
             }
 
             viewList.add(newImageView);
@@ -249,9 +249,11 @@ public class ImageCollectionView extends AppCompatActivity implements Observer {
         if (filterView != null){
             filterView.setRating((float)model.getFilter());
         }
+        pictureArea.removeAllViews();
         for(CustomImageView img : viewList){
-//            img.changeLayout(model.getLayout());
-            img.setFilter(model.getFilter());
+            if (img.isVisible(model.getFilter())){
+                pictureArea.addView(img);
+            }
         }
     }
 
