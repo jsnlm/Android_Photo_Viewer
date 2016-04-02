@@ -18,9 +18,12 @@ import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.view.animation.GridLayoutAnimationController;
+import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
@@ -44,6 +47,7 @@ public class ImageCollectionView extends AppCompatActivity implements Observer {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("onCreate", "");
 
         model = new ImageCollectionModel();
         model.addObserver(this);
@@ -51,30 +55,40 @@ public class ImageCollectionView extends AppCompatActivity implements Observer {
 
         setContentView(R.layout.activity_main_view2);
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        ScrollView scrollArea = (ScrollView) findViewById(R.id.scrollView);
         setSupportActionBar(myToolbar);
 
 
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
-            GridLayout temp = new GridLayout(this.getApplicationContext());
-            temp.setColumnCount(2);
-            temp.setColumnOrderPreserved(false);
-            temp.setRowOrderPreserved(false);
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+//            GridLayout temp = new GridLayout(this.getApplicationContext());
+//            temp.setColumnCount(2);
+//            temp.setColumnOrderPreserved(false);
+//            temp.setRowOrderPreserved(false);
+//
+//            GridLayout.LayoutParams first = new GridLayout.LayoutParams();
 
-            GridLayout.LayoutParams first = new GridLayout.LayoutParams();
-                    pictureArea = temp;
+
+            LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
+            inflater.inflate(R.layout.picture_area_horizontal, scrollArea, true);
+
+            GridLayout temp = (GridLayout)scrollArea.findViewById(R.id.picture_area);
+            int aferht = temp.getColumnCount();
+            pictureArea = temp;
         }
-        else{
+        else {
             LinearLayout temp = new LinearLayout(this.getApplicationContext());
             temp.setOrientation(LinearLayout.VERTICAL);
             //        android:id="@+id/picture_area"
             pictureArea = temp;
-        }
 
-        pictureArea.setLayoutParams(new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
-        ScrollView scrollingArea = (ScrollView) findViewById(R.id.scrollView);
-        scrollingArea.addView(pictureArea);
+
+
+            pictureArea.setLayoutParams(new ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT));
+            ScrollView scrollingArea = (ScrollView) findViewById(R.id.scrollView);
+            scrollingArea.addView(pictureArea);
+        }
         counter = 0;
 //        /////////////////////////////////////////////////////////////////////////////////////
 //        String mSelectionClause = null;
@@ -93,32 +107,33 @@ public class ImageCollectionView extends AppCompatActivity implements Observer {
 //            mCursor.close();
 //        }
 //        mCursor.close();
+        invalidateOptionsMenu();
     }
 
     @Override
     protected void onRestart(){
         super.onRestart();
-        Log.d("onRestart", "onRestart");
+        Log.d("onRestart", "");
     }
     @Override
     protected void onStart(){
         super.onStart();
-        Log.d("onStart", "onStart");
+        Log.d("onStart", "");
     }
     @Override
     protected void onResume(){
         super.onResume();
-        Log.d("onResume", "onResume");
+        Log.d("onResume", "");
     }
     @Override
     protected void onPause(){
         super.onPause();
-        Log.d("onPause", "onPause");
+        Log.d("onPause", "");
     }
     @Override
     protected void onStop(){
         super.onStop();
-        Log.d("onStop", "onStop");
+        Log.d("onStop", "");
 //        Uri mNewUri;
 //        for (ImageModel imgModel : model.getImageList()) {
 //            ContentValues mNewValues = new ContentValues();
@@ -134,11 +149,25 @@ public class ImageCollectionView extends AppCompatActivity implements Observer {
     @Override
     protected void onDestroy(){
         super.onDestroy();
-        Log.d("onDestroy", "onDestroy");
+        Log.d("onDestroy", "");
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        Log.d("onSaveInstanceState", "");
+        model.saveToInstanceState(savedInstanceState);
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        Log.d("onRestoreInstanceState", "");
+        super.onRestoreInstanceState(savedInstanceState);
+        model.restoreFromInstanceState(savedInstanceState);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        Log.d("onCreateOptionsMenu", "");
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main_view, menu);
         MenuItem searchItem = menu.findItem(R.id.action_search);
@@ -155,8 +184,8 @@ public class ImageCollectionView extends AppCompatActivity implements Observer {
                 String fileName = idk[idk.length-1];
 
                 try{
-                    URL someURL = new URL(query);
-                    model.addPicture(someURL, fileName);
+//                    URL someURL = new URL(query);
+                    model.addPicture(query, fileName);
                 }
                 catch(Exception e){
                     Log.e("URL instantiating error", e.getMessage());
@@ -190,7 +219,7 @@ public class ImageCollectionView extends AppCompatActivity implements Observer {
     public void update(Observable observable, Object data) {
         ImageModel newImageModel =  model.getUnaddedImage();
         if (newImageModel != null){
-            System.out.println("new image was added");
+//            System.out.println("new image was added");
             CustomImageView newImageView = new CustomImageView(this.getApplicationContext(), newImageModel);
             newImageModel.addObserver(newImageView);
             newImageModel.notifyObservers();
@@ -200,7 +229,15 @@ public class ImageCollectionView extends AppCompatActivity implements Observer {
             // LinearLayout pictureArea = (LinearLayout) findViewById(R.id.picture_area);
 
             if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
-                pictureArea.addView(newImageView, pictureArea.getWidth()/2, 650);
+                int argo = pictureArea.getMeasuredWidth();
+//                pictureArea.addView(newImageView, pictureArea.getWidth()/2, 650);
+                GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams();
+                layoutParams.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1.0f);
+                layoutParams.setGravity(Gravity.CENTER);
+                newImageView.setLayoutParams(layoutParams);
+//                pictureArea.setMinimumHeight(650);
+
+                pictureArea.addView(newImageView);
             }
             else{
                 pictureArea.addView(newImageView);
@@ -209,7 +246,9 @@ public class ImageCollectionView extends AppCompatActivity implements Observer {
             viewList.add(newImageView);
         }
 
-        filterView.setRating((float)model.getFilter());
+        if (filterView != null){
+            filterView.setRating((float)model.getFilter());
+        }
         for(CustomImageView img : viewList){
 //            img.changeLayout(model.getLayout());
             img.setFilter(model.getFilter());

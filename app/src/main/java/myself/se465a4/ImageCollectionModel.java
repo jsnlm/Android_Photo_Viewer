@@ -1,6 +1,7 @@
 package myself.se465a4;
 
 import android.net.Uri;
+import android.os.Bundle;
 import android.util.Log;
 
 import java.net.URL;
@@ -10,7 +11,7 @@ import java.util.Observable;
 
 public class ImageCollectionModel extends Observable{
 
-    List<ImageModel> imageList;
+    ArrayList<ImageModel> imageList;
     ImageModel unaddedImage;
     int filter;
 
@@ -29,7 +30,7 @@ public class ImageCollectionModel extends Observable{
         notifyObservers();
     }
 
-    public void addPicture(URL fileOfNewPic, String fileName){
+    public void addPicture(String fileOfNewPic, String fileName){
         addPicture(new ImageModel(fileOfNewPic, fileName));
     }
 
@@ -47,6 +48,18 @@ public class ImageCollectionModel extends Observable{
         unaddedImage = Pic;
         setChangedAndNotify();
         unaddedImage = null;
+    }
+
+    public void saveToInstanceState(Bundle savedInstanceState){
+        savedInstanceState.putParcelableArrayList("ImageModels", imageList);
+    }
+
+    public void restoreFromInstanceState(Bundle savedInstanceState){
+        imageList = savedInstanceState.getParcelableArrayList("ImageModels");
+        for (ImageModel imgMod: imageList) {
+            displayImageModel(imgMod);
+        }
+        setChangedAndNotify();
     }
 
     //////////////////////////////////// Getters and Setters ///////////////////////////////////////

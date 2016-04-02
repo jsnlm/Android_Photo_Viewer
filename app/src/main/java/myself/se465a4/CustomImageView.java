@@ -45,7 +45,7 @@ public class CustomImageView extends LinearLayout implements Observer{
         }
         else{
             try{
-                new DownloadImageTask(imgPart).execute(model.getPathURL().toString());
+                new DownloadImageTask(imgPart).execute(model.getPathURL());
             }
             catch(Exception e){
                 Log.e("URL getting error", e.getStackTrace().toString());
