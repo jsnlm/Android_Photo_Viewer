@@ -17,7 +17,7 @@ public class ImageCollectionModel extends Observable{
         unaddedImage = null;
     }
 
-    private void setChangedAndNotify(){
+    public void setChangedAndNotify(){
         setChanged();
         notifyObservers();
     }

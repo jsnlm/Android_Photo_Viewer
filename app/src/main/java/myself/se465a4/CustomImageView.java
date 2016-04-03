@@ -14,9 +14,14 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import java.util.EventListener;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
+
+interface OnCustomEventListener {
+    void onEvent();
+}
 
 public class CustomImageView extends LinearLayout implements Observer{
 
@@ -24,6 +29,7 @@ public class CustomImageView extends LinearLayout implements Observer{
     RatingBar ratingBar;
     Button ClearRating;
     TextView fileName;
+    OnCustomEventListener mListener;
 
     public CustomImageView(Context c, ImageModel x){
         super(c);
@@ -113,20 +119,23 @@ public class CustomImageView extends LinearLayout implements Observer{
 
     @Override
     public void update(Observable observable, Object data) {
-        ratingBar.setRating((float)model.getRating());
+        ratingBar.setRating((float) model.getRating());
+        mListener.onEvent();
     }
 
     public boolean isVisible(int filter) {
         if ((filter != 0) && (model.getRating() < filter)) {
-            this.setVisibility(GONE);
+//            this.setVisibility(GONE);
             return false;
         }
         else {
-            this.setVisibility(VISIBLE);
+//            this.setVisibility(VISIBLE);
             return true;
         }
     }
 
-
+    public void setCustomEventListener(OnCustomEventListener eventListener) {
+        mListener = eventListener;
+    }
 
 }

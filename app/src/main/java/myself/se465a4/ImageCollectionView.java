@@ -167,6 +167,7 @@ public class ImageCollectionView extends AppCompatActivity implements Observer {
 
     @Override
     public void update(Observable observable, Object data) {
+        Log.d("update was called", ", rgiht?");
         ImageModel newImageModel =  model.getUnaddedImage();
         if (newImageModel != null){
             CustomImageView newImageView = new CustomImageView(this.getApplicationContext(), newImageModel);
@@ -174,6 +175,12 @@ public class ImageCollectionView extends AppCompatActivity implements Observer {
             newImageModel.notifyObservers();
 
             //newImageView.addRatingListener(this::onRate);
+            newImageView.setCustomEventListener(new OnCustomEventListener() {
+                @Override
+                public void onEvent() {
+                    model.setChangedAndNotify();
+                }
+            });
 
             if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
                 GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams();
@@ -249,6 +256,5 @@ public class ImageCollectionView extends AppCompatActivity implements Observer {
         model.addPicture(path10, "picture10.jpg");
         model.addPicture(path11, "picture11.jpg");
         model.addPicture(path12, "picture12.jpg");
-
     }
 }
