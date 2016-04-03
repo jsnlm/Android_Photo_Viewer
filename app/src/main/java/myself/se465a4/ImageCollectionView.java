@@ -47,12 +47,11 @@ public class ImageCollectionView extends AppCompatActivity implements Observer {
         LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             inflater.inflate(R.layout.picture_area_horizontal, scrollArea, true);
-            pictureArea = (GridLayout)scrollArea.findViewById(R.id.picture_area);
         }
         else {
             inflater.inflate(R.layout.picture_area_vertical, scrollArea, true);
-            pictureArea = (LinearLayout)scrollArea.findViewById(R.id.picture_area);
         }
+        pictureArea = (ViewGroup)scrollArea.findViewById(R.id.picture_area);
         invalidateOptionsMenu();
     }
 
@@ -113,7 +112,6 @@ public class ImageCollectionView extends AppCompatActivity implements Observer {
             newImageModel.addObserver(newImageView);
             newImageModel.notifyObservers();
 
-            //newImageView.addRatingListener(this::onRate);
             newImageView.setCustomEventListener(new OnCustomEventListener() {
                 @Override
                 public void onEvent() {

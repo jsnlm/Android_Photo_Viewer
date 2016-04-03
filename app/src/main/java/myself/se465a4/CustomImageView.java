@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import java.util.EventListener;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
@@ -37,10 +36,8 @@ public class CustomImageView extends LinearLayout implements Observer{
 
         this.setOrientation(LinearLayout.VERTICAL);
 
-        Random r = new Random();
-        this.setBackgroundColor(Color.rgb(r.nextInt(255), r.nextInt(255), r.nextInt(255)));
-
-//        Bitmap yourSelectedImage = BitmapFactory.decodeFile(model.getPath().getPath());
+//        Random r = new Random();
+//        this.setBackgroundColor(Color.rgb(r.nextInt(255), r.nextInt(255), r.nextInt(255)));
 
         ImageView imgPart = new ImageView(c);
         if (model.getPath() != null){
