@@ -27,7 +27,6 @@ public class ImageCollectionView extends AppCompatActivity implements Observer {
     ImageCollectionModel model;
     List<CustomImageView> viewList;
     RatingBar filterView;
-    int counter;
     ViewGroup pictureArea;
 
     @Override
@@ -45,49 +44,31 @@ public class ImageCollectionView extends AppCompatActivity implements Observer {
         setSupportActionBar(myToolbar);
 
 
+        LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-
-            LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
             inflater.inflate(R.layout.picture_area_horizontal, scrollArea, true);
-
-            GridLayout temp = (GridLayout)scrollArea.findViewById(R.id.picture_area);
-            int aferht = temp.getColumnCount();
-            pictureArea = temp;
+            pictureArea = (GridLayout)scrollArea.findViewById(R.id.picture_area);
         }
         else {
-            LinearLayout temp = new LinearLayout(this.getApplicationContext());
-            temp.setOrientation(LinearLayout.VERTICAL);
-            //        android:id="@+id/picture_area"
-            pictureArea = temp;
-
-
-
-            pictureArea.setLayoutParams(new ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT));
-            ScrollView scrollingArea = (ScrollView) findViewById(R.id.scrollView);
-            scrollingArea.addView(pictureArea);
+            inflater.inflate(R.layout.picture_area_vertical, scrollArea, true);
+            pictureArea = (LinearLayout)scrollArea.findViewById(R.id.picture_area);
         }
-        counter = 0;
         invalidateOptionsMenu();
     }
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
-        Log.d("onSaveInstanceState", "");
         model.saveToInstanceState(savedInstanceState);
         super.onSaveInstanceState(savedInstanceState);
     }
 
     public void onRestoreInstanceState(Bundle savedInstanceState) {
-        Log.d("onRestoreInstanceState", "");
         super.onRestoreInstanceState(savedInstanceState);
         model.restoreFromInstanceState(savedInstanceState);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        Log.d("onCreateOptionsMenu", "");
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main_view, menu);
         MenuItem searchItem = menu.findItem(R.id.action_search);
@@ -101,17 +82,7 @@ public class ImageCollectionView extends AppCompatActivity implements Observer {
 
                 String[] idk = query .split("/");
                 String fileName = idk[idk.length-1];
-
-                try{
-//                    URL someURL = new URL(query);
-                    model.addPicture(query, fileName);
-                }
-                catch(Exception e){
-                    Log.e("URL instantiating error", e.getMessage());
-                    e.printStackTrace();
-                }
-
-
+                model.addPicture(query, fileName);
                 return true;
             }
 
@@ -155,11 +126,7 @@ public class ImageCollectionView extends AppCompatActivity implements Observer {
                 layoutParams.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1.0f);
                 layoutParams.setGravity(Gravity.CENTER);
                 newImageView.setLayoutParams(layoutParams);
-//                pictureArea.addView(newImageView);
             }
-//            else{
-//                pictureArea.addView(newImageView);
-//            }
 
             viewList.add(newImageView);
         }
