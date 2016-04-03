@@ -94,12 +94,15 @@ public class ImageCollectionView extends AppCompatActivity implements Observer {
         filterView.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                model.setFilter((int) rating);
+                if (fromUser){
+                    model.setFilter((int) rating);
+                }
             }
         });
         filterView = (RatingBar) MenuItemCompat.getActionView(filterItem);
         filterView.setStepSize(1.0f);
         filterView.setNumStars(5);
+        filterView.setRating(model.getFilter());
 
         return true;
     }

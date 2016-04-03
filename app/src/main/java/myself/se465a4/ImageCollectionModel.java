@@ -44,10 +44,12 @@ public class ImageCollectionModel extends Observable{
 
     public void saveToInstanceState(Bundle savedInstanceState){
         savedInstanceState.putParcelableArrayList("ImageModels", imageList);
+        savedInstanceState.putInt("filterVal", filter);
     }
 
     public void restoreFromInstanceState(Bundle savedInstanceState){
         imageList = savedInstanceState.getParcelableArrayList("ImageModels");
+        filter = savedInstanceState.getInt("filterVal");
         for (ImageModel imgMod: imageList) {
             displayImageModel(imgMod);
         }

@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,17 +56,20 @@ public class CustomImageView extends LinearLayout implements Observer{
         }
 
         imgPart.setAdjustViewBounds(true);
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+//        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
             imgPart.setMaxHeight(400);
             imgPart.setMinimumHeight(400);
-        }
+//        }
 
         ratingBar = new RatingBar(c);
         ratingBar.setStepSize(1.0f);
         ratingBar.setNumStars(5);
         ratingBar.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        Drawable stars = ratingBar.getProgressDrawable();
-        stars.setTint(Color.BLACK);
+        LayerDrawable stars = (LayerDrawable)ratingBar.getProgressDrawable();
+        stars.getDrawable(2).setColorFilter(Color.rgb(0, 0, 0), PorterDuff.Mode.SRC_ATOP);
+        stars.getDrawable(1).setColorFilter(Color.rgb(80, 80, 80), PorterDuff.Mode.SRC_ATOP);
+        stars.getDrawable(0).setColorFilter(Color.rgb(180, 180, 180), PorterDuff.Mode.SRC_ATOP);
+//        stars.setTint(Color.BLACK);
 
         ClearRating = new Button(c);
         ClearRating.setText(R.string.clear_rating);
