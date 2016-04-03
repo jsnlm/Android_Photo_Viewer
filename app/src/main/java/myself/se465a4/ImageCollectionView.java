@@ -73,37 +73,6 @@ public class ImageCollectionView extends AppCompatActivity implements Observer {
     }
 
     @Override
-    protected void onRestart(){
-        super.onRestart();
-        Log.d("onRestart", "");
-    }
-    @Override
-    protected void onStart(){
-        super.onStart();
-        Log.d("onStart", "");
-    }
-    @Override
-    protected void onResume(){
-        super.onResume();
-        Log.d("onResume", "");
-    }
-    @Override
-    protected void onPause(){
-        super.onPause();
-        Log.d("onPause", "");
-    }
-    @Override
-    protected void onStop(){
-        super.onStop();
-        Log.d("onStop", "");
-    }
-    @Override
-    protected void onDestroy(){
-        super.onDestroy();
-        Log.d("onDestroy", "");
-    }
-
-    @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         Log.d("onSaveInstanceState", "");
         model.saveToInstanceState(savedInstanceState);
@@ -167,7 +136,6 @@ public class ImageCollectionView extends AppCompatActivity implements Observer {
 
     @Override
     public void update(Observable observable, Object data) {
-        Log.d("update was called", ", rgiht?");
         ImageModel newImageModel =  model.getUnaddedImage();
         if (newImageModel != null){
             CustomImageView newImageView = new CustomImageView(this.getApplicationContext(), newImageModel);
@@ -189,9 +157,9 @@ public class ImageCollectionView extends AppCompatActivity implements Observer {
                 newImageView.setLayoutParams(layoutParams);
 //                pictureArea.addView(newImageView);
             }
-            else{
+//            else{
 //                pictureArea.addView(newImageView);
-            }
+//            }
 
             viewList.add(newImageView);
         }
@@ -211,10 +179,8 @@ public class ImageCollectionView extends AppCompatActivity implements Observer {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_clear:
-                Log.d("tag, idk", "action_clear was clicked");
                 viewList.clear();
                 model.clearImagesModels();
-//                LinearLayout pictureArea = (LinearLayout) findViewById(R.id.picture_area);
                 pictureArea.removeAllViews();
                 return true;
 
@@ -222,7 +188,6 @@ public class ImageCollectionView extends AppCompatActivity implements Observer {
                 load10Picture();
                 return true;
             case R.id.clear_filter:
-                Log.d("tag, idk", "clear_filter was clicked");
                 model.setFilter(0);
                 return true;
             default:

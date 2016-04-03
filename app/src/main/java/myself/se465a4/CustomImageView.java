@@ -56,8 +56,8 @@ public class CustomImageView extends LinearLayout implements Observer{
             }
         }
 
+        imgPart.setAdjustViewBounds(true);
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
-            imgPart.setAdjustViewBounds(true);
             imgPart.setMaxHeight(400);
             imgPart.setMinimumHeight(400);
         }
@@ -97,26 +97,17 @@ public class CustomImageView extends LinearLayout implements Observer{
         imgPart.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                openImageProcedure(v);
+                Intent intent = new Intent(v.getContext(), CloseupImageLayout.class);
+                if (model.getPath() != null){
+                    intent.putExtra("Image_Link_Uri", model.getPath());
+                } else{
+                    intent.putExtra("Image_Link_URL", model.getPathURL());
+                }
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                (getContext()).startActivity(intent);
             }
         });
     }
-
-    private void openImageProcedure(View v){
-        Intent intent = new Intent(v.getContext(), CloseupImageLayout.class);
-//        intent.putExtra("Image_Link", this.model);
-//        String arg = "test text";
-//        intent.putExtra("someText", arg);
-
-        if (this.model.getPath() != null){
-            intent.putExtra("Image_Link_Uri", this.model.getPath());
-        } else{
-            intent.putExtra("Image_Link_URL", this.model.getPathURL());
-        }
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        (getContext()).startActivity(intent);
-    }
-
     @Override
     public void update(Observable observable, Object data) {
         ratingBar.setRating((float) model.getRating());
