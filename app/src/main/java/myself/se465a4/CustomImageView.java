@@ -64,6 +64,7 @@ public class CustomImageView extends LinearLayout implements Observer{
         ratingBar = new RatingBar(c);
         ratingBar.setStepSize(1.0f);
         ratingBar.setNumStars(5);
+        ratingBar.setRating(model.getRating());
         ratingBar.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         LayerDrawable stars = (LayerDrawable)ratingBar.getProgressDrawable();
         stars.getDrawable(2).setColorFilter(Color.rgb(0, 0, 0), PorterDuff.Mode.SRC_ATOP);
