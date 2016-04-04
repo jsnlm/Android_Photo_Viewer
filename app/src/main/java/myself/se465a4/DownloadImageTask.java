@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
 
+import java.io.BufferedInputStream;
 import java.io.InputStream;
 
 // Plagiarized from http://stackoverflow.com/questions/2471935/how-to-load-an-imageview-by-url-in-android
@@ -31,5 +32,7 @@ public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
 
     protected void onPostExecute(Bitmap result) {
         bmImage.setImageBitmap(result);
+        bmImage.setMaxHeight(400);
+        bmImage.setMinimumHeight(400);
     }
 }

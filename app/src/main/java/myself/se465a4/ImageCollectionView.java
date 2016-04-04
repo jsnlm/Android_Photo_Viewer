@@ -78,10 +78,18 @@ public class ImageCollectionView extends AppCompatActivity implements Observer {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-
-                String[] idk = query .split("/");
-                String fileName = idk[idk.length-1];
-                model.addPicture(query, fileName);
+                if (
+                        Utilities.isJpgFile(query)||
+                        Utilities.isGifFile(query)||
+                        Utilities.isPngFile(query)
+                ){
+                    String[] idk = query .split("/");
+                    String fileName = idk[idk.length-1];
+                    model.addPicture(query, fileName);
+                }
+                else{
+                    new BingSearchCall(query, model).execute();
+                }
                 return true;
             }
 
